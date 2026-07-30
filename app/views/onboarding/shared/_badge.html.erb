@@ -1,0 +1,8 @@
+<% case state
+   when :cv %>
+  <span class="badge badge-cv">Extracted from CV</span>
+<% when :check %>
+  <span class="badge badge-check">⚠ Please check</span>
+<% when :missing %>
+  <span class="badge badge-missing">Missing</span>
+<% end %>

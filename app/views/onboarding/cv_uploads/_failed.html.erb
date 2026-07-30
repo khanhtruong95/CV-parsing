@@ -1,0 +1,16 @@
+<section class="card" aria-labelledby="h-failed">
+  <div class="banner-danger" role="alert">
+    <div class="icon" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#B42318" stroke-width="1.6"/><path d="M10 6v5" stroke="#B42318" stroke-width="1.6" stroke-linecap="round"/><circle cx="10" cy="13.8" r="1" fill="#B42318"/></svg>
+    </div>
+    <div>
+      <h2 id="h-failed">We couldn't read your CV</h2>
+      <p>The file may be scanned, image-based or password-protected. You can try a different file, or fill in your profile manually — it only takes a few minutes.</p>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= button_to "Continue manually", onboarding_cv_skip_path, class: "btn btn-primary", form: { data: { turbo_frame: "_top" } } %>
+    <%= link_to "Try another file", onboarding_cv_upload_path(retry: 1), class: "btn btn-secondary", data: { turbo_frame: "_top" } %>
+  </div>
+</section>

@@ -1,0 +1,31 @@
+<div class="subcard" data-nested-form-row<%= ' style="display:none"'.html_safe if form.object.marked_for_destruction? %>>
+  <div class="subcard-head">
+    <h3>
+      <%= heading %>
+      <% if form.object.persisted? && badge_state != :none %><%= render "onboarding/shared/badge", state: badge_state %><% end %>
+    </h3>
+    <button type="button" class="btn-remove" data-action="nested-form#remove">Remove</button>
+  </div>
+
+  <%= form.hidden_field :id if form.object.persisted? %>
+  <%= form.hidden_field :_destroy %>
+
+  <div class="row">
+    <div class="field"><%= form.label :job_title, "Job title" %><%= form.text_field :job_title %></div>
+    <div class="field"><%= form.label :company_name, "Company / practice" %><%= form.text_field :company_name %></div>
+  </div>
+  <div class="row single">
+    <div class="field"><%= form.label :responsibilities, "Responsibilities" %><%= form.text_area :responsibilities %></div>
+  </div>
+  <div class="row">
+    <div class="field"><%= form.label :start_date, "Start date" %><%= form.date_field :start_date %></div>
+    <div class="field">
+      <%= form.label :end_date, "End date" %>
+      <%= form.date_field :end_date, disabled: form.object.current_job, data: { role: "end-date" } %>
+      <p class="current-job" style="margin-top:8px;">
+        <%= form.check_box :current_job, data: { action: "nested-form#toggleCurrent" } %>
+        <%= form.label :current_job, "This is my current job" %>
+      </p>
+    </div>
+  </div>
+</div>

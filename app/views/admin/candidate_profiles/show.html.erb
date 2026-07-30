@@ -1,0 +1,73 @@
+<% content_for(:title) { "#{@profile.full_name} — DentaMatch Admin" } %>
+<p><%= link_to "← All candidates", admin_candidate_profiles_path %></p>
+<h1><%= @profile.full_name %></h1>
+
+<% if @profile.duplicate_email? %>
+  <p><span class="flag">Duplicate email</span> This email address already belongs to an existing user — verify identity and merge manually.</p>
+<% end %>
+
+<h2>Personal & preferences</h2>
+<dl>
+  <dt>Email</dt><dd><%= @profile.email %></dd>
+  <dt>Phone</dt><dd><%= @profile.phone %></dd>
+  <dt>City / country</dt><dd><%= [ @profile.city, @profile.country ].compact_blank.join(", ") %></dd>
+  <dt>Languages</dt><dd><%= @profile.candidate_languages.includes(:language).map { |cl| [ cl.language.name, cl.level ].compact_blank.join(" — ") }.join(", ") %></dd>
+  <dt>Job function</dt><dd><%= @profile.job_function&.name %></dd>
+  <dt>Preferred regions</dt><dd><%= @profile.regions.map(&:name).join(", ") %></dd>
+  <dt>Max travel time</dt><dd><%= @profile.max_travel_time %> minutes</dd>
+  <dt>Transport</dt><dd><%= @profile.transport_modes.map(&:humanize).join(", ") %></dd>
+  <dt>Search status</dt><dd><%= @profile.search_status&.humanize %></dd>
+  <dt>Reason for looking</dt><dd><%= @profile.reason_for_looking %></dd>
+  <dt>Employment types</dt><dd><%= @profile.employment_types.map(&:name).join(", ") %></dd>
+  <dt>Desired salary</dt><dd><%= @profile.desired_salary %></dd>
+  <dt>Desired percentage</dt><dd><%= @profile.desired_percentage %></dd>
+  <dt>Average daily revenue</dt><dd><%= @profile.average_daily_revenue %></dd>
+  <dt>BIG status / number</dt><dd><%= [ @profile.big_status&.humanize, @profile.big_number ].compact_blank.join(" / ") %></dd>
+  <dt>Years of experience</dt><dd><%= @profile.years_experience %></dd>
+  <dt>Available from</dt><dd><%= @profile.available_from %></dd>
+  <dt>Working days</dt><dd><%= @profile.working_days.map(&:capitalize).join(", ") %></dd>
+  <dt>Notice period</dt><dd><%= @profile.notice_period %></dd>
+  <dt>Skills</dt><dd><%= @profile.skills.map(&:name).join(", ") %></dd>
+  <dt>Suggested skills (unmatched)</dt><dd style="white-space:pre-line;"><%= @profile.suggested_skills %></dd>
+  <dt>Professional summary</dt><dd style="white-space:pre-line;"><%= @profile.professional_summary %></dd>
+  <dt>Motivation</dt><dd style="white-space:pre-line;"><%= @profile.motivation %></dd>
+  <dt>Internal notes</dt><dd style="white-space:pre-line;"><%= @profile.internal_notes %></dd>
+  <dt>Consent accepted</dt><dd><%= @profile.consent_accepted_at %></dd>
+  <dt>Completed</dt><dd><%= @profile.completed_at %></dd>
+</dl>
+
+<h2>Education</h2>
+<table>
+  <thead><tr><th>Study</th><th>Institution</th><th>Location</th><th>Level</th><th>Period</th></tr></thead>
+  <tbody>
+    <% @profile.educations.ordered.each do |education| %>
+      <tr>
+        <td><%= education.study %></td><td><%= education.institution %></td>
+        <td><%= education.location %></td><td><%= education.level %></td>
+        <td><%= [ education.start_date, education.end_date ].compact.join(" — ") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Work experience</h2>
+<table>
+  <thead><tr><th>Job title</th><th>Company</th><th>Period</th><th>Current</th><th>Responsibilities</th></tr></thead>
+  <tbody>
+    <% @profile.work_experiences.ordered.each do |experience| %>
+      <tr>
+        <td><%= experience.job_title %></td><td><%= experience.company_name %></td>
+        <td><%= [ experience.start_date, experience.end_date ].compact.join(" — ") %></td>
+        <td><%= experience.current_job? ? "Yes" : "" %></td>
+        <td><%= experience.responsibilities %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>CV</h2>
+<% if @profile.latest_cv_document&.file&.attached? %>
+  <p><%= link_to "Download CV (#{@profile.latest_cv_document.original_filename})", cv_admin_candidate_profile_path(@profile) %></p>
+<% else %>
+  <p>No CV uploaded (manual onboarding).</p>
+<% end %>

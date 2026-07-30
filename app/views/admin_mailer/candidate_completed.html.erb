@@ -1,0 +1,17 @@
+<h2>New candidate profile completed</h2>
+<ul>
+  <li><strong>Name:</strong> <%= @profile.full_name %></li>
+  <li><strong>Email:</strong> <%= @profile.email %></li>
+  <li><strong>Phone:</strong> <%= @profile.phone %></li>
+  <li><strong>City:</strong> <%= @profile.city %></li>
+  <li><strong>Job function:</strong> <%= @profile.job_function&.name %></li>
+  <li><strong>Years of experience:</strong> <%= @profile.years_experience %></li>
+  <li><strong>Education records:</strong> <%= @profile.educations.count %></li>
+  <li><strong>Work experiences:</strong> <%= @profile.work_experiences.count %></li>
+  <li><strong>Skills:</strong> <%= @profile.skills.count %></li>
+  <li><strong>Languages:</strong> <%= @profile.languages.count %></li>
+</ul>
+<% if @profile.duplicate_email? %>
+  <p><strong>Note:</strong> this email address already belongs to an existing user — manual review needed.</p>
+<% end %>
+<p><%= link_to "View profile in admin", admin_candidate_profile_url(@profile) %></p>

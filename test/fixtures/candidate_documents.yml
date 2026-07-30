@@ -1,0 +1,2 @@
+# Candidate documents are created during tests due to ActiveStorage file attachments
+# This file is kept empty to prevent fixture loading errors

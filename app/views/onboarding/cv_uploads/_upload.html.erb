@@ -1,0 +1,47 @@
+<section class="card" aria-labelledby="h-upload">
+  <h1 id="h-upload">Upload your CV</h1>
+  <p class="lead">We'll read your CV and prefill your candidate profile — experience, education and skills. You review everything before anything is saved.</p>
+
+  <%= form_with url: onboarding_cv_upload_path, method: :post, multipart: true,
+        data: {
+          controller: "cv-upload",
+          cv_upload_max_mb_value: Rails.application.config.x.cv_max_size_mb
+        } do |form| %>
+
+    <div class="dropzone" role="button" tabindex="0"
+         data-cv-upload-target="dropzone"
+         data-action="click->cv-upload#browse keydown.enter->cv-upload#browse dragover->cv-upload#dragover dragleave->cv-upload#dragleave drop->cv-upload#drop">
+      <div class="icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 13V4m0 0L6.5 7.5M10 4l3.5 3.5" stroke="#0F766E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="#0F766E" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </div>
+      <p class="main" data-cv-upload-target="label">Drag &amp; drop your CV here, or <span class="browse">browse files</span></p>
+      <p class="meta">PDF, DOC or DOCX &middot; max <%= Rails.application.config.x.cv_max_size_mb %> MB</p>
+    </div>
+    <%= form.file_field :file, name: "file", accept: ".pdf,.doc,.docx",
+          class: "visually-hidden", style: "position:absolute;left:-9999px;",
+          data: { cv_upload_target: "input", action: "change->cv-upload#fileChanged" } %>
+
+    <% if @upload_error %>
+      <div class="banner-danger" role="alert" style="margin-top:16px;">
+        <p><%= @upload_error %></p>
+      </div>
+    <% end %>
+    <p class="meta" style="color:var(--danger); font-size:13px; margin-top:8px; display:none;" data-cv-upload-target="error"></p>
+
+    <div class="consent">
+      <%= check_box_tag :consent, "1", false, data: { cv_upload_target: "consent", action: "change->cv-upload#toggleSubmit" } %>
+      <label for="consent">I agree that my CV and profile information may be processed to create and improve my candidate profile.</label>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Analyze CV", class: "btn btn-primary", disabled: true, data: { cv_upload_target: "submit" } %>
+      <% unless Rails.env.production? %>
+        <%= button_tag "Try a sample CV", formaction: onboarding_cv_demo_path, formmethod: "post",
+              class: "btn btn-secondary", name: nil %>
+      <% end %>
+      <span class="spacer"></span>
+      <%= button_tag "Continue manually →", formaction: onboarding_cv_skip_path, formmethod: "post",
+            class: "btn-link", name: nil %>
+    </div>
+  <% end %>
+</section>

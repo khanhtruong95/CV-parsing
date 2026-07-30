@@ -1,0 +1,22 @@
+<section class="card" aria-labelledby="s5">
+  <div class="sec-head"><span class="num">5</span><h2 id="s5">Work experience</h2></div>
+
+  <div data-controller="nested-form">
+    <div data-nested-form-target="list">
+      <%= form.fields_for :work_experiences do |work_experience_form| %>
+        <%= render "onboarding/profiles/work_experience_fields", form: work_experience_form,
+              heading: "Experience #{work_experience_form.index.to_i + 1}",
+              badge_state: field_state(profile, "work_experiences") %>
+      <% end %>
+    </div>
+
+    <template data-nested-form-target="template">
+      <%= form.fields_for :work_experiences, WorkExperience.new, child_index: "NEW_RECORD" do |work_experience_form| %>
+        <%= render "onboarding/profiles/work_experience_fields", form: work_experience_form,
+              heading: "New experience", badge_state: :none %>
+      <% end %>
+    </template>
+
+    <button type="button" class="btn-add" data-action="nested-form#add">+ Add work experience</button>
+  </div>
+</section>

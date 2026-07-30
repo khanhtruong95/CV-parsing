@@ -1,0 +1,28 @@
+<section class="card" aria-labelledby="s7">
+  <div class="sec-head"><span class="num">7</span><h2 id="s7">Availability</h2></div>
+
+  <div class="field" style="margin-bottom:16px;">
+    <label>Working days <span class="req" aria-hidden="true">*</span> <%= provenance_badge(profile, "working_days", required: true) %></label>
+    <div class="chips">
+      <%= form.collection_check_boxes :working_days,
+            CandidateProfile::WORKING_DAYS.map { |day| [ day, day.humanize ] }, :first, :last do |b| %>
+        <%= render "onboarding/shared/chip", b: b %>
+      <% end %>
+    </div>
+    <%= render "onboarding/shared/field_errors", profile: profile, field: :working_days %>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <%= form.label :available_from do %>
+        Available from <span class="req" aria-hidden="true">*</span> <%= provenance_badge(profile, :available_from, required: true) %>
+      <% end %>
+      <%= form.date_field :available_from, required: true, class: input_state_class(profile, :available_from, required: true) %>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :available_from %>
+    </div>
+    <div class="field">
+      <%= form.label :notice_period, "Notice period" %>
+      <%= form.text_field :notice_period %>
+    </div>
+  </div>
+</section>

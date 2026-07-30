@@ -1,0 +1,11 @@
+<% data = {}
+   if b.object.respond_to?(:salary_based?)
+     data[:salary_based] = b.object.salary_based?
+     data[:percentage_based] = b.object.percentage_based?
+     # Employment chips drive the salary/percentage visibility toggle.
+     data[:action] = "change->conditional-fields#refresh"
+   end %>
+<label class="chip">
+  <%= b.check_box(data: data) %>
+  <span><%= b.text %></span>
+</label>

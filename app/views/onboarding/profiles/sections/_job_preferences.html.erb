@@ -1,0 +1,61 @@
+<section class="card" aria-labelledby="s2">
+  <div class="sec-head"><span class="num">2</span><h2 id="s2">Job preferences</h2></div>
+
+  <div class="row">
+    <div class="field">
+      <%= form.label :job_function_id do %>
+        Job function <span class="req" aria-hidden="true">*</span> <%= provenance_badge(profile, :job_function_id, required: true) %>
+      <% end %>
+      <%= form.select :job_function_id,
+            options_for_select(
+              JobFunction.ordered.map { |jf| [ jf.name, jf.id, { data: { key: jf.key, requires_big: jf.requires_big?, requires_daily_revenue: jf.requires_daily_revenue? } } ] },
+              profile.job_function_id
+            ),
+            { include_blank: "Select..." },
+            { required: true, class: input_state_class(profile, :job_function_id, required: true),
+              data: { conditional_fields_target: "jobFunction", skills_filter_target: "jobFunction",
+                       action: "change->conditional-fields#refresh change->skills-filter#filter" } } %>
+      <p class="hint">Controls which skills and compensation fields are shown below.</p>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :job_function_id %>
+    </div>
+    <div class="field">
+      <%= form.label :max_travel_time do %>
+        Max travel time (minutes) <span class="req" aria-hidden="true">*</span> <%= provenance_badge(profile, :max_travel_time, required: true) %>
+      <% end %>
+      <%= form.number_field :max_travel_time, required: true, min: 5, max: 180, placeholder: "e.g. 45",
+            class: input_state_class(profile, :max_travel_time, required: true) %>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :max_travel_time %>
+    </div>
+  </div>
+
+  <div class="field" style="margin-bottom:16px;">
+    <label>Preferred regions <span class="req" aria-hidden="true">*</span> <%= provenance_badge(profile, "regions", required: true) %></label>
+    <div class="chips">
+      <%= form.collection_check_boxes :region_ids, Region.ordered, :id, :name do |b| %>
+        <%= render "onboarding/shared/chip", b: b %>
+      <% end %>
+    </div>
+    <%= render "onboarding/shared/field_errors", profile: profile, field: :regions %>
+  </div>
+
+  <div class="field" style="margin-bottom:16px;">
+    <label>Transport</label>
+    <div class="chips">
+      <%= form.collection_check_boxes :transport_modes,
+            CandidateProfile::TRANSPORT_MODES.map { |mode| [ mode, mode.humanize ] }, :first, :last do |b| %>
+        <%= render "onboarding/shared/chip", b: b %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <%= form.label :search_status, "Search status" %>
+      <%= form.select :search_status, CandidateProfile.search_statuses.keys.map { |status| [ status.humanize, status ] } %>
+    </div>
+    <div class="field">
+      <%= form.label :reason_for_looking, "Reason for looking" %>
+      <%= form.text_field :reason_for_looking %>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,26 @@
+<section class="card" aria-labelledby="s6">
+  <div class="sec-head"><span class="num">6</span><h2 id="s6">Skills</h2></div>
+
+  <% JobFunction.ordered.each do |jf| %>
+    <div class="field" style="margin-bottom:16px;" data-skills-filter-target="group" data-job-function-key="<%= jf.key %>">
+      <label>
+        Skills for <strong><%= jf.name %></strong>
+        <% if profile.job_function_id == jf.id %><%= provenance_badge(profile, "skills") %><% end %>
+      </label>
+      <div class="chips">
+        <%= form.collection_check_boxes :skill_ids, jf.skills.ordered, :id, :name do |b| %>
+          <%= render "onboarding/shared/chip", b: b %>
+        <% end %>
+      </div>
+      <p class="hint">Skill list is filtered by the job function selected in section 2.</p>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="field">
+      <%= form.label :suggested_skills, "Missing a skill? Suggest one" %>
+      <%= form.text_area :suggested_skills, rows: 2, placeholder: "e.g. Sedation dentistry" %>
+      <p class="hint">Suggestions are reviewed and may be added to your profile.</p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+<section class="card" aria-labelledby="s4">
+  <div class="sec-head"><span class="num">4</span><h2 id="s4">Education</h2></div>
+
+  <div data-controller="nested-form">
+    <div data-nested-form-target="list">
+      <%= form.fields_for :educations do |education_form| %>
+        <%= render "onboarding/profiles/education_fields", form: education_form,
+              heading: "Education #{education_form.index.to_i + 1}",
+              badge_state: field_state(profile, "educations") %>
+      <% end %>
+    </div>
+
+    <template data-nested-form-target="template">
+      <%= form.fields_for :educations, Education.new, child_index: "NEW_RECORD" do |education_form| %>
+        <%= render "onboarding/profiles/education_fields", form: education_form,
+              heading: "New education", badge_state: :none %>
+      <% end %>
+    </template>
+
+    <button type="button" class="btn-add" data-action="nested-form#add">+ Add education</button>
+  </div>
+</section>

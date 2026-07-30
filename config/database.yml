@@ -1,0 +1,35 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  primary:
+    <<: *default
+    database: dentamatch_development
+  queue:
+    <<: *default
+    database: dentamatch_development_queue
+    migrations_paths: db/queue_migrate
+
+test:
+  primary:
+    <<: *default
+    database: dentamatch_test
+  queue:
+    <<: *default
+    database: dentamatch_test_queue
+    migrations_paths: db/queue_migrate
+
+production:
+  primary:
+    <<: *default
+    database: dentamatch_production
+    username: dentamatch
+    password: <%= ENV["DENTAMATCH_DATABASE_PASSWORD"] %>
+  queue:
+    <<: *default
+    database: dentamatch_production_queue
+    username: dentamatch
+    password: <%= ENV["DENTAMATCH_DATABASE_PASSWORD"] %>
+    migrations_paths: db/queue_migrate
