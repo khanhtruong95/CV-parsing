@@ -1,0 +1,16 @@
+New candidate profile completed
+
+Name: <%= @profile.full_name %>
+Email: <%= @profile.email %>
+Phone: <%= @profile.phone %>
+City: <%= @profile.city %>
+Job function: <%= @profile.job_function&.name %>
+Years of experience: <%= @profile.years_experience %>
+Education records: <%= @profile.educations.count %>
+Work experiences: <%= @profile.work_experiences.count %>
+Skills: <%= @profile.skills.count %>
+Languages: <%= @profile.languages.count %>
+<% if @profile.duplicate_email? %>
+Note: this email address already belongs to an existing user - manual review needed.
+<% end %>
+View profile: <%= admin_candidate_profile_url(@profile) %>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for(:title) || "DentaMatch Admin" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <style>
+      body{font-family:-apple-system,'Segoe UI',sans-serif;font-size:14px;color:#1C2B29;background:#F5F8F7;margin:0;padding:24px;}
+      .admin-wrap{max-width:960px;margin:0 auto;}
+      h1{font-size:22px;margin:0 0 16px;}
+      h2{font-size:16px;margin:24px 0 8px;}
+      table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #DCE5E3;border-radius:8px;}
+      th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #DCE5E3;font-size:13px;}
+      th{background:#E7F4F2;}
+      a{color:#0F766E;}
+      .flag{display:inline-block;background:#FDECEA;color:#B42318;border:1px solid #F2B8B0;border-radius:999px;padding:1px 10px;font-size:12px;font-weight:600;}
+      dl{display:grid;grid-template-columns:220px 1fr;gap:4px 16px;background:#fff;border:1px solid #DCE5E3;border-radius:8px;padding:16px;}
+      dt{font-weight:600;color:#52625E;}
+      dd{margin:0;}
+    </style>
+  </head>
+  <body><div class="admin-wrap"><%= yield %></div></body>
+</html>

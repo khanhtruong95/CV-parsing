@@ -1,0 +1,9 @@
+<nav class="progress" aria-label="Onboarding progress">
+  <div class="step <%= current_step == 1 ? "active" : "done" %>" <%= 'aria-current="step"'.html_safe if current_step == 1 %>>
+    <span class="num"><%= current_step > 1 ? "✓" : "1" %></span><span class="lbl">Upload CV</span>
+  </div>
+  <div class="connector" aria-hidden="true"></div>
+  <div class="step <%= current_step == 2 ? "active" : "upcoming" %>" <%= 'aria-current="step"'.html_safe if current_step == 2 %>>
+    <span class="num">2</span><span class="lbl">Review profile</span>
+  </div>
+</nav>

@@ -1,0 +1,68 @@
+<section class="card" aria-labelledby="s1">
+  <div class="sec-head"><span class="num">1</span><h2 id="s1">Personal details</h2></div>
+
+  <div class="row">
+    <div class="field">
+      <%= form.label :first_name do %>
+        First name <span class="req" aria-hidden="true">*</span> <%= provenance_badge(profile, :first_name, required: true) %>
+      <% end %>
+      <%= form.text_field :first_name, required: true, class: input_state_class(profile, :first_name, required: true) %>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :first_name %>
+    </div>
+    <div class="field">
+      <%= form.label :last_name do %>
+        Last name <span class="req" aria-hidden="true">*</span> <%= provenance_badge(profile, :last_name, required: true) %>
+      <% end %>
+      <%= form.text_field :last_name, required: true, class: input_state_class(profile, :last_name, required: true) %>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :last_name %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <%= form.label :email do %>
+        Email <span class="req" aria-hidden="true">*</span> <%= provenance_badge(profile, :email, required: true) %>
+      <% end %>
+      <%= form.email_field :email, required: true, class: input_state_class(profile, :email, required: true) %>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :email %>
+    </div>
+    <div class="field">
+      <%= form.label :phone do %>
+        Phone <span class="req" aria-hidden="true">*</span> <%= provenance_badge(profile, :phone, required: true) %>
+      <% end %>
+      <%= form.telephone_field :phone, required: true, placeholder: "+31 6 12345678",
+            class: input_state_class(profile, :phone, required: true) %>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :phone %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <%= form.label :city do %>
+        City <span class="req" aria-hidden="true">*</span> <%= provenance_badge(profile, :city, required: true) %>
+      <% end %>
+      <%= form.text_field :city, required: true, class: input_state_class(profile, :city, required: true) %>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :city %>
+    </div>
+    <div class="field">
+      <%= form.label :country, "Country" %>
+      <%= form.text_field :country %>
+    </div>
+  </div>
+
+  <div class="field" data-controller="nested-form">
+    <label>Languages <span class="req" aria-hidden="true">*</span> <%= provenance_badge(profile, "languages", required: true) %></label>
+    <div data-nested-form-target="list">
+      <%= form.fields_for :candidate_languages do |language_form| %>
+        <%= render "onboarding/profiles/language_fields", form: language_form %>
+      <% end %>
+    </div>
+    <template data-nested-form-target="template">
+      <%= form.fields_for :candidate_languages, CandidateLanguage.new, child_index: "NEW_RECORD" do |language_form| %>
+        <%= render "onboarding/profiles/language_fields", form: language_form %>
+      <% end %>
+    </template>
+    <button type="button" class="btn-add" data-action="nested-form#add">+ Add language</button>
+    <%= render "onboarding/shared/field_errors", profile: profile, field: :languages %>
+  </div>
+</section>

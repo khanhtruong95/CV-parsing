@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DentaMatch — Step 2: Profile Review (Wireframe)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ==== DentaMatch design tokens (see docs/design-guidelines.md) ==== */
+  :root{
+    --primary:#0F766E; --primary-hover:#0C5F58; --primary-soft:#E7F4F2;
+    --accent:#E2725B;
+    --warning:#92400E; --warning-bg:#FEF3DC; --warning-border:#F0D9A6;
+    --danger:#B42318; --danger-bg:#FDECEA; --danger-border:#F2B8B0;
+    --bg:#F5F8F7; --surface:#FFFFFF;
+    --border:#DCE5E3; --border-input:#B9C9C6;
+    --text:#1C2B29; --text-secondary:#52625E; --text-hint:#6B7B77;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'Public Sans',sans-serif; font-size:15px; line-height:1.6; color:var(--text); background:var(--bg); padding:24px 16px 64px;}
+  h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;}
+  .wrap{max-width:720px; margin:0 auto;}
+
+  header.site{display:flex; align-items:center; gap:10px; padding:8px 0 24px;}
+  .wordmark{display:flex; align-items:center; gap:8px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:20px; color:var(--text); text-decoration:none;}
+  .wordmark .dot{color:var(--accent);}
+
+  /* Progress: step 1 done, step 2 active */
+  .progress{display:flex; align-items:center; justify-content:center; gap:12px; margin:0 0 24px;}
+  .step{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600;}
+  .step .num{width:28px; height:28px; border-radius:999px; display:flex; align-items:center; justify-content:center; font-size:13px;}
+  .step.done .num{background:var(--primary-soft); color:var(--primary); border:1px solid var(--primary);}
+  .step.done{color:var(--text-secondary);}
+  .step.active .num{background:var(--primary); color:#fff;}
+  .step.active{color:var(--text);}
+  .connector{width:48px; height:2px; background:var(--primary); border-radius:2px;}
+
+  .page-head h1{font-size:28px; line-height:1.2; margin-bottom:8px;}
+  .page-head p{color:var(--text-secondary); margin-bottom:16px;}
+
+  /* Prefill summary banner */
+  .banner-info{display:flex; gap:12px; align-items:flex-start; background:var(--primary-soft); border:1px solid #BFE0DB; border-radius:8px; padding:14px 16px; margin-bottom:24px; font-size:13px; color:var(--text-secondary);}
+  .banner-info strong{color:var(--text);}
+
+  /* Section cards */
+  .card{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px; box-shadow:0 1px 2px rgba(28,43,41,.06); margin-bottom:24px;}
+  .sec-head{display:flex; align-items:center; gap:12px; margin-bottom:20px;}
+  .sec-head .num{flex:none; width:28px; height:28px; border-radius:999px; background:var(--primary-soft); color:var(--primary); font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif;}
+  .sec-head h2{font-size:20px;}
+
+  /* Fields */
+  .row{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;}
+  .row.single{grid-template-columns:1fr;}
+  .field label{display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:13px; font-weight:600; margin-bottom:6px;}
+  .field .hint{font-size:12px; color:var(--text-hint); margin-top:4px;}
+  input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],select,textarea{
+    width:100%; min-height:44px; padding:10px 14px; font:inherit; font-size:15px; color:var(--text);
+    background:var(--surface); border:1px solid var(--border-input); border-radius:8px;}
+  textarea{min-height:96px; resize:vertical;}
+  select{appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2352625E' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px;}
+  input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--primary); outline-offset:2px;}
+  .input-warning{border-color:#D9A441 !important; border-width:2px !important;}
+  .input-missing{border-color:var(--danger) !important; border-width:2px !important;}
+  .msg-danger{display:flex; gap:6px; align-items:center; font-size:13px; color:var(--danger); margin-top:6px;}
+  .msg-warning{font-size:13px; color:var(--warning); margin-top:6px;}
+
+  /* Provenance badges */
+  .badge{display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:600; line-height:16px; padding:2px 8px; border-radius:999px; white-space:nowrap;}
+  .badge-cv{background:var(--primary-soft); color:#0E6B63;}
+  .badge-check{background:var(--warning-bg); color:var(--warning); border:1px solid var(--warning-border);}
+  .badge-missing{background:var(--danger-bg); color:var(--danger); border:1px solid var(--danger-border);}
+  .req{color:var(--danger); font-weight:600;}
+
+  /* Checkbox chips */
+  .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{position:relative;}
+  .chip input{position:absolute; opacity:0; width:100%; height:100%; left:0; top:0; cursor:pointer;}
+  .chip span{display:inline-flex; align-items:center; gap:6px; min-height:36px; padding:6px 14px; border-radius:999px; border:1px solid var(--border-input); font-size:14px; font-weight:500; color:var(--text-secondary); background:var(--surface); cursor:pointer;}
+  .chip input:checked + span{background:var(--primary-soft); border-color:var(--primary); color:var(--primary);}
+  .chip input:checked + span::before{content:"✓"; font-weight:700;}
+  .chip input:focus-visible + span{outline:2px solid var(--primary); outline-offset:2px;}
+
+  /* Language / repeater rows */
+  .subcard{border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:12px;}
+  .subcard-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+  .subcard-head h3{font-family:'Public Sans',sans-serif; font-size:14px; font-weight:600; color:var(--text-secondary);}
+  .btn-remove{background:none; border:none; color:var(--danger); font:inherit; font-size:13px; font-weight:600; cursor:pointer; min-height:32px; padding:4px 8px; border-radius:6px;}
+  .btn-remove:hover{background:var(--danger-bg);}
+  .btn-add{width:100%; min-height:44px; border:2px dashed var(--border-input); border-radius:8px; background:none; color:var(--primary); font:inherit; font-size:14px; font-weight:600; cursor:pointer;}
+  .btn-add:hover{border-color:var(--primary); background:var(--primary-soft);}
+  .lang-row{display:grid; grid-template-columns:1fr 180px 36px; gap:8px; align-items:center; margin-bottom:8px;}
+
+  .current-job{display:flex; gap:8px; align-items:center; font-size:14px; color:var(--text-secondary);}
+  .current-job input{width:18px; height:18px; accent-color:var(--primary);}
+
+  /* Footer actions */
+  .footer-actions{display:flex; align-items:center; gap:16px; padding:8px 0 0;}
+  .btn{display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 24px; border-radius:8px; font:inherit; font-size:15px; font-weight:600; cursor:pointer; border:1px solid transparent;}
+  .btn-primary{background:var(--primary); color:#fff;}
+  .btn-primary:hover{background:var(--primary-hover);}
+  .btn-secondary{background:var(--surface); color:var(--text); border-color:var(--border-input);}
+  .footer-actions .spacer{flex:1;}
+  .footer-note{font-size:12px; color:var(--text-hint); margin-top:8px;}
+
+  .note{font-size:13px; color:var(--text-secondary); background:#FFFBEB; border:1px dashed #E3CE8B; border-radius:8px; padding:10px 14px; margin-top:12px;}
+  .note strong{color:var(--text);}
+  .cond{border-left:3px solid var(--primary-soft); padding-left:13px;}
+
+  @media (max-width:640px){
+    .card{padding:16px;}
+    .page-head h1{font-size:24px;}
+    .row{grid-template-columns:1fr;}
+    .lang-row{grid-template-columns:1fr; gap:6px;}
+    .footer-actions{flex-direction:column-reverse; align-items:stretch;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site">
+    <a class="wordmark" href="#" aria-label="DentaMatch home">
+      <svg width="26" height="26" viewBox="0 0 20 20" aria-hidden="true">
+        <path fill="#0F766E" d="M7 2.5C4.7 2.5 3 4.4 3 6.8c0 1.6.6 2.7 1.1 4 .5 1.3 1 3 1.2 5.3.1 1.3.6 2.4 1.5 2.4 1.7 0 1-4.6 3.2-4.6s1.5 4.6 3.2 4.6c.9 0 1.4-1.1 1.5-2.4.2-2.3.7-4 1.2-5.3.5-1.3 1.1-2.4 1.1-4 0-2.4-1.7-4.3-4-4.3-1.2 0-1.7.6-3 .6s-1.8-.6-3-.6z"/>
+      </svg>
+      DentaMatch<span class="dot">.</span>
+    </a>
+  </header>
+
+  <nav class="progress" aria-label="Onboarding progress">
+    <div class="step done"><span class="num">✓</span><span class="lbl">Upload CV</span></div>
+    <div class="connector" aria-hidden="true"></div>
+    <div class="step active" aria-current="step"><span class="num">2</span><span class="lbl">Review profile</span></div>
+  </nav>
+
+  <div class="page-head">
+    <h1>Review your profile</h1>
+    <p>We prefilled your profile from your CV. Check each section, correct anything we got wrong, and fill in what's missing.</p>
+  </div>
+
+  <div class="banner-info" role="status">
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="flex:none; margin-top:2px;"><circle cx="10" cy="10" r="8" stroke="#0F766E" stroke-width="1.6"/><path d="M10 9v5" stroke="#0F766E" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="6" r="1" fill="#0F766E"/></svg>
+    <span><strong>26 fields extracted from your CV.</strong> 1 field needs checking (<span class="badge badge-check">⚠ Please check</span>) and 1 required field is missing (<span class="badge badge-missing">Missing</span>).</span>
+  </div>
+
+  <form>
+
+  <!-- ============ 1. PERSONAL DETAILS ============ -->
+  <section class="card" aria-labelledby="s1">
+    <div class="sec-head"><span class="num">1</span><h2 id="s1">Personal details</h2></div>
+    <div class="row">
+      <div class="field">
+        <label for="fn">First name <span class="req" aria-hidden="true">*</span> <span class="badge badge-cv">Extracted from CV</span></label>
+        <input type="text" id="fn" value="Sanne" required>
+      </div>
+      <div class="field">
+        <label for="ln">Last name <span class="req" aria-hidden="true">*</span> <span class="badge badge-cv">Extracted from CV</span></label>
+        <input type="text" id="ln" value="de Vries" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="email">Email <span class="req" aria-hidden="true">*</span> <span class="badge badge-cv">Extracted from CV</span></label>
+        <input type="email" id="email" value="sanne.devries@gmail.com" required>
+      </div>
+      <div class="field">
+        <label for="phone">Phone <span class="req" aria-hidden="true">*</span> <span class="badge badge-check">⚠ Please check</span></label>
+        <input type="tel" id="phone" class="input-warning" value="+31 6 12 34 56 7" aria-describedby="phone-msg" required>
+        <p class="msg-warning" id="phone-msg">This number looks incomplete — please verify it.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="city">City <span class="badge badge-cv">Extracted from CV</span></label>
+        <input type="text" id="city" value="Amsterdam">
+      </div>
+      <div class="field">
+        <label for="country">Country</label>
+        <select id="country"><option selected>Netherlands</option><option>Belgium</option><option>Germany</option><option>Other</option></select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Languages <span class="badge badge-cv">Extracted from CV</span></label>
+      <div class="lang-row">
+        <select aria-label="Language 1"><option selected>Dutch</option><option>English</option><option>German</option></select>
+        <select aria-label="Level for Dutch"><option selected>Native</option><option>Fluent</option><option>Conversational</option><option>Basic</option></select>
+        <button type="button" class="btn-remove" aria-label="Remove Dutch">✕</button>
+      </div>
+      <div class="lang-row">
+        <select aria-label="Language 2"><option>Dutch</option><option selected>English</option><option>German</option></select>
+        <select aria-label="Level for English"><option>Native</option><option selected>Fluent</option><option>Conversational</option><option>Basic</option></select>
+        <button type="button" class="btn-remove" aria-label="Remove English">✕</button>
+      </div>
+      <button type="button" class="btn-add">+ Add language</button>
+    </div>
+  </section>
+
+  <!-- ============ 2. JOB PREFERENCES ============ -->
+  <section class="card" aria-labelledby="s2">
+    <div class="sec-head"><span class="num">2</span><h2 id="s2">Job preferences</h2></div>
+    <div class="row">
+      <div class="field">
+        <label for="jobfn">Job function <span class="req" aria-hidden="true">*</span> <span class="badge badge-cv">Extracted from CV</span></label>
+        <select id="jobfn" required>
+          <option selected>General dentist</option><option>Dental specialist</option><option>Dental hygienist</option>
+          <option>Dental assistant</option><option>Receptionist</option><option>Practice manager</option><option>Dental technician</option>
+        </select>
+        <p class="hint">Controls which skills and compensation fields are shown below.</p>
+      </div>
+      <div class="field">
+        <label for="travel">Max travel time (minutes) <span class="req" aria-hidden="true">*</span> <span class="badge badge-missing">Missing</span></label>
+        <input type="number" id="travel" class="input-missing" placeholder="e.g. 45" min="5" max="180" aria-describedby="travel-msg" required>
+        <p class="msg-danger" id="travel-msg">
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="8" stroke="#B42318" stroke-width="1.6"/><path d="M10 6v5" stroke="#B42318" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="14" r="1" fill="#B42318"/></svg>
+          Required — we couldn't find this in your CV.
+        </p>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:16px;">
+      <label>Preferred regions <span class="badge badge-cv">Extracted from CV</span></label>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" checked><span>Noord-Holland</span></label>
+        <label class="chip"><input type="checkbox" checked><span>Utrecht</span></label>
+        <label class="chip"><input type="checkbox" checked><span>Flevoland</span></label>
+        <label class="chip"><input type="checkbox"><span>Zuid-Holland</span></label>
+        <label class="chip"><input type="checkbox"><span>Gelderland</span></label>
+        <label class="chip"><input type="checkbox"><span>Noord-Brabant</span></label>
+        <label class="chip"><input type="checkbox"><span>Overijssel</span></label>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:16px;">
+      <label>Transport</label>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" checked><span>Car</span></label>
+        <label class="chip"><input type="checkbox" checked><span>Public transport</span></label>
+        <label class="chip"><input type="checkbox"><span>Bicycle</span></label>
+        <label class="chip"><input type="checkbox"><span>Motorcycle / scooter</span></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="status">Search status</label>
+        <select id="status"><option selected>Actively looking</option><option>Open to offers</option><option>Just exploring</option></select>
+      </div>
+      <div class="field">
+        <label for="reason">Reason for looking</label>
+        <input type="text" id="reason" value="Looking for a practice with more focus on preventive care">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. EMPLOYMENT & COMPENSATION ============ -->
+  <section class="card" aria-labelledby="s3">
+    <div class="sec-head"><span class="num">3</span><h2 id="s3">Employment &amp; compensation</h2></div>
+    <div class="field" style="margin-bottom:16px;">
+      <label>Employment type <span class="req" aria-hidden="true">*</span></label>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" checked><span>Employed (loondienst)</span></label>
+        <label class="chip"><input type="checkbox" checked><span>Self-employed (ZZP)</span></label>
+        <label class="chip"><input type="checkbox"><span>Temporary / locum</span></label>
+      </div>
+    </div>
+    <div class="row cond">
+      <div class="field">
+        <label for="salary">Desired gross monthly salary (&euro;)</label>
+        <input type="number" id="salary" value="6500" step="100">
+        <p class="hint">Shown because "Employed" is selected.</p>
+      </div>
+      <div class="field">
+        <label for="pct">Desired percentage of revenue (%)</label>
+        <input type="number" id="pct" value="45" min="0" max="100">
+        <p class="hint">Shown because "Self-employed" is selected.</p>
+      </div>
+    </div>
+    <div class="row cond">
+      <div class="field">
+        <label for="bigstatus">BIG registration <span class="req" aria-hidden="true">*</span> <span class="badge badge-cv">Extracted from CV</span></label>
+        <select id="bigstatus" required><option selected>Registered</option><option>Application in progress</option><option>Not registered</option></select>
+      </div>
+      <div class="field">
+        <label for="bignr">BIG number <span class="badge badge-cv">Extracted from CV</span></label>
+        <input type="text" id="bignr" value="39912345678" inputmode="numeric">
+      </div>
+    </div>
+    <div class="row cond">
+      <div class="field">
+        <label for="revenue">Average daily revenue (&euro;)</label>
+        <input type="number" id="revenue" value="3500" step="100">
+        <p class="hint">Only asked for dentists, hygienists and specialists.</p>
+      </div>
+      <div class="field">
+        <label for="exp">Years of experience <span class="badge badge-cv">Extracted from CV</span></label>
+        <input type="number" id="exp" value="8" min="0" max="60">
+      </div>
+    </div>
+    <aside class="note"><strong>Annotation:</strong> Salary shows only when "Employed" is selected; percentage only when "Self-employed". BIG registration, BIG number and daily revenue show only for job function = dentist / hygienist / specialist (here: General dentist). BIG number visible only when status = Registered.</aside>
+  </section>
+
+  <!-- ============ 4. EDUCATION (repeater) ============ -->
+  <section class="card" aria-labelledby="s4">
+    <div class="sec-head"><span class="num">4</span><h2 id="s4">Education</h2></div>
+
+    <div class="subcard">
+      <div class="subcard-head"><h3>Education 1 <span class="badge badge-cv">Extracted from CV</span></h3><button type="button" class="btn-remove">Remove</button></div>
+      <div class="row">
+        <div class="field"><label for="e1-inst">Institution</label><input type="text" id="e1-inst" value="ACTA (Academisch Centrum Tandheelkunde Amsterdam)"></div>
+        <div class="field"><label for="e1-study">Study</label><input type="text" id="e1-study" value="Master Tandheelkunde (Dentistry)"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="e1-city">City / country</label><input type="text" id="e1-city" value="Amsterdam, Netherlands"></div>
+        <div class="field"><label for="e1-level">Level</label>
+          <select id="e1-level"><option>MBO</option><option>HBO</option><option selected>WO / University</option><option>Post-master</option></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="e1-from">Start date</label><input type="date" id="e1-from" value="2015-09-01"></div>
+        <div class="field"><label for="e1-to">End date</label><input type="date" id="e1-to" value="2018-07-01"></div>
+      </div>
+    </div>
+
+    <div class="subcard">
+      <div class="subcard-head"><h3>Education 2 <span class="badge badge-cv">Extracted from CV</span></h3><button type="button" class="btn-remove">Remove</button></div>
+      <div class="row">
+        <div class="field"><label for="e2-inst">Institution</label><input type="text" id="e2-inst" value="ACTA (Academisch Centrum Tandheelkunde Amsterdam)"></div>
+        <div class="field"><label for="e2-study">Study</label><input type="text" id="e2-study" value="Bachelor Tandheelkunde"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="e2-city">City / country</label><input type="text" id="e2-city" value="Amsterdam, Netherlands"></div>
+        <div class="field"><label for="e2-level">Level</label>
+          <select id="e2-level"><option>MBO</option><option>HBO</option><option selected>WO / University</option><option>Post-master</option></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="e2-from">Start date</label><input type="date" id="e2-from" value="2012-09-01"></div>
+        <div class="field"><label for="e2-to">End date</label><input type="date" id="e2-to" value="2015-07-01"></div>
+      </div>
+    </div>
+
+    <button type="button" class="btn-add">+ Add education</button>
+  </section>
+
+  <!-- ============ 5. WORK EXPERIENCE (repeater) ============ -->
+  <section class="card" aria-labelledby="s5">
+    <div class="sec-head"><span class="num">5</span><h2 id="s5">Work experience</h2></div>
+
+    <div class="subcard">
+      <div class="subcard-head"><h3>Experience 1 <span class="badge badge-cv">Extracted from CV</span></h3><button type="button" class="btn-remove">Remove</button></div>
+      <div class="row">
+        <div class="field"><label for="w1-title">Job title</label><input type="text" id="w1-title" value="General Dentist"></div>
+        <div class="field"><label for="w1-comp">Company / practice</label><input type="text" id="w1-comp" value="Tandartspraktijk Zuidas, Amsterdam"></div>
+      </div>
+      <div class="row single">
+        <div class="field"><label for="w1-resp">Responsibilities</label>
+          <textarea id="w1-resp">Full patient care: check-ups, restorative treatments, endodontics and patient education. Mentoring two dental assistants and coordinating with the in-house hygienist.</textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="w1-from">Start date</label><input type="date" id="w1-from" value="2020-03-01"></div>
+        <div class="field"><label for="w1-to">End date</label><input type="date" id="w1-to" disabled>
+          <p class="current-job" style="margin-top:8px;"><input type="checkbox" id="w1-cur" checked><label for="w1-cur">This is my current job</label></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="subcard">
+      <div class="subcard-head"><h3>Experience 2 <span class="badge badge-cv">Extracted from CV</span></h3><button type="button" class="btn-remove">Remove</button></div>
+      <div class="row">
+        <div class="field"><label for="w2-title">Job title</label><input type="text" id="w2-title" value="Associate Dentist"></div>
+        <div class="field"><label for="w2-comp">Company / practice</label><input type="text" id="w2-comp" value="Dental Clinics Haarlem"></div>
+      </div>
+      <div class="row single">
+        <div class="field"><label for="w2-resp">Responsibilities</label>
+          <textarea id="w2-resp">General dentistry with a focus on preventive care and crown &amp; bridge work in a five-chair practice.</textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="w2-from">Start date</label><input type="date" id="w2-from" value="2018-08-01"></div>
+        <div class="field"><label for="w2-to">End date</label><input type="date" id="w2-to" value="2020-02-01">
+          <p class="current-job" style="margin-top:8px;"><input type="checkbox" id="w2-cur"><label for="w2-cur">This is my current job</label></p>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn-add">+ Add work experience</button>
+  </section>
+
+  <!-- ============ 6. SKILLS ============ -->
+  <section class="card" aria-labelledby="s6">
+    <div class="sec-head"><span class="num">6</span><h2 id="s6">Skills</h2></div>
+    <div class="field" style="margin-bottom:16px;">
+      <label>Skills for <strong>General dentist</strong> <span class="badge badge-cv">Extracted from CV</span></label>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" checked><span>Restorative dentistry</span></label>
+        <label class="chip"><input type="checkbox" checked><span>Endodontics</span></label>
+        <label class="chip"><input type="checkbox" checked><span>Crown &amp; bridge work</span></label>
+        <label class="chip"><input type="checkbox" checked><span>Preventive care</span></label>
+        <label class="chip"><input type="checkbox" checked><span>Digital X-ray</span></label>
+        <label class="chip"><input type="checkbox" checked><span>Intraoral scanning</span></label>
+        <label class="chip"><input type="checkbox"><span>Implantology</span></label>
+        <label class="chip"><input type="checkbox"><span>Orthodontics (aligners)</span></label>
+        <label class="chip"><input type="checkbox"><span>Periodontology</span></label>
+        <label class="chip"><input type="checkbox"><span>Pediatric dentistry</span></label>
+        <label class="chip"><input type="checkbox"><span>Prosthetics</span></label>
+        <label class="chip"><input type="checkbox"><span>Surgical extractions</span></label>
+      </div>
+      <p class="hint">Skill list is filtered by the job function selected in section 2.</p>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="skill-other">Missing a skill? Suggest one</label>
+        <input type="text" id="skill-other" placeholder="e.g. Sedation dentistry">
+        <p class="hint">Suggestions are reviewed and may be added to your profile.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. AVAILABILITY ============ -->
+  <section class="card" aria-labelledby="s7">
+    <div class="sec-head"><span class="num">7</span><h2 id="s7">Availability</h2></div>
+    <div class="field" style="margin-bottom:16px;">
+      <label>Working days <span class="badge badge-cv">Extracted from CV</span></label>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" checked><span>Monday</span></label>
+        <label class="chip"><input type="checkbox" checked><span>Tuesday</span></label>
+        <label class="chip"><input type="checkbox"><span>Wednesday</span></label>
+        <label class="chip"><input type="checkbox" checked><span>Thursday</span></label>
+        <label class="chip"><input type="checkbox" checked><span>Friday</span></label>
+        <label class="chip"><input type="checkbox"><span>Saturday</span></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="avail">Available from</label>
+        <input type="date" id="avail" value="2026-09-01">
+      </div>
+      <div class="field">
+        <label for="notice">Notice period</label>
+        <select id="notice"><option>None</option><option selected>1 month</option><option>2 months</option><option>3 months or more</option></select>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 8. ADDITIONAL INFO ============ -->
+  <section class="card" aria-labelledby="s8">
+    <div class="sec-head"><span class="num">8</span><h2 id="s8">Additional information</h2></div>
+    <div class="row single">
+      <div class="field">
+        <label for="motivation">Motivation <span class="badge badge-cv">Extracted from CV</span></label>
+        <textarea id="motivation">I'm an experienced general dentist looking for a modern practice in the Amsterdam region where preventive care and patient relationships come first. I enjoy working in a close-knit team and mentoring junior colleagues.</textarea>
+      </div>
+    </div>
+    <div class="row single">
+      <div class="field">
+        <label for="notes">Notes for your recruiter (optional)</label>
+        <textarea id="notes" placeholder="Anything else we should know?"></textarea>
+        <p class="hint">Internal only — never shared with practices.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer-actions">
+    <button type="button" class="btn btn-secondary">Back</button>
+    <span class="spacer"></span>
+    <button type="submit" class="btn btn-primary">Save profile</button>
+  </div>
+  <p class="footer-note">On save: inline validation scrolls to the first "Missing" field (max travel time). "Please check" fields warn but don't block submission.</p>
+
+  </form>
+</div>
+</body>
+</html>

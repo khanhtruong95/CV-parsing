@@ -1,0 +1,81 @@
+<% salary_required = profile.salary_based_employment?
+   percentage_required = profile.percentage_based_employment?
+   daily_revenue_required = profile.daily_revenue_required?
+   big_status_required = profile.big_required?
+   big_number_required = profile.big_number_required? %>
+<section class="card" aria-labelledby="s3">
+  <div class="sec-head"><span class="num">3</span><h2 id="s3">Employment &amp; compensation</h2></div>
+
+  <div class="field" style="margin-bottom:16px;" data-conditional-fields-target="employmentTypes">
+    <label>Employment type <span class="req" aria-hidden="true">*</span></label>
+    <div class="chips">
+      <%= form.collection_check_boxes :employment_type_ids, EmploymentType.ordered, :id, :name do |b| %>
+        <%= render "onboarding/shared/chip", b: b %>
+      <% end %>
+    </div>
+    <%= render "onboarding/shared/field_errors", profile: profile, field: :employment_types %>
+  </div>
+
+  <div class="row cond">
+    <div class="field" data-conditional-fields-target="salary">
+      <%= form.label :desired_salary do %>
+        Desired gross monthly salary (&euro;) <% if salary_required %><span class="req" aria-hidden="true">*</span><% end %>
+      <% end %>
+      <%= form.number_field :desired_salary, step: 100, min: 0,
+            class: input_state_class(profile, :desired_salary, required: salary_required) %>
+      <p class="hint">Shown because an employed-type is selected.</p>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :desired_salary %>
+    </div>
+    <div class="field" data-conditional-fields-target="percentage">
+      <%= form.label :desired_percentage do %>
+        Desired percentage of revenue (%) <% if percentage_required %><span class="req" aria-hidden="true">*</span><% end %>
+      <% end %>
+      <%= form.number_field :desired_percentage, min: 0, max: 100,
+            class: input_state_class(profile, :desired_percentage, required: percentage_required) %>
+      <p class="hint">Shown because a self-employed / percentage-based type is selected.</p>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :desired_percentage %>
+    </div>
+  </div>
+
+  <div class="row cond">
+    <div class="field" data-conditional-fields-target="big">
+      <%= form.label :big_status do %>
+        BIG registration <% if big_status_required %><span class="req" aria-hidden="true">*</span><% end %> <%= provenance_badge(profile, :big_status, required: big_status_required) %>
+      <% end %>
+      <%= form.select :big_status, CandidateProfile.big_statuses.keys.map { |status| [ status.humanize, status ] },
+            { include_blank: "Select..." },
+            { class: input_state_class(profile, :big_status, required: big_status_required),
+              data: { conditional_fields_target: "bigStatusSelect", action: "change->conditional-fields#refresh" } } %>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :big_status %>
+    </div>
+    <div class="field" data-conditional-fields-target="bigNumber">
+      <%= form.label :big_number do %>
+        BIG number <% if big_number_required %><span class="req" aria-hidden="true">*</span><% end %> <%= provenance_badge(profile, :big_number, required: big_number_required) %>
+      <% end %>
+      <%= form.text_field :big_number, inputmode: "numeric",
+            class: input_state_class(profile, :big_number, required: big_number_required) %>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :big_number %>
+    </div>
+  </div>
+
+  <div class="row cond">
+    <div class="field" data-conditional-fields-target="dailyRevenue">
+      <%= form.label :average_daily_revenue do %>
+        Average daily revenue (&euro;) <% if daily_revenue_required %><span class="req" aria-hidden="true">*</span><% end %>
+      <% end %>
+      <%= form.number_field :average_daily_revenue, step: 100, min: 0,
+            class: input_state_class(profile, :average_daily_revenue, required: daily_revenue_required) %>
+      <p class="hint">Only asked for dentists, hygienists and specialists.</p>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :average_daily_revenue %>
+    </div>
+    <div class="field">
+      <%= form.label :years_experience do %>
+        Years of experience <span class="req" aria-hidden="true">*</span> <%= provenance_badge(profile, :years_experience, required: true) %>
+      <% end %>
+      <%= form.number_field :years_experience, min: 0, max: 60, required: true,
+            class: input_state_class(profile, :years_experience, required: true) %>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :years_experience %>
+    </div>
+  </div>
+
+</section>

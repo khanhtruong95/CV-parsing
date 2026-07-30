@@ -1,0 +1,35 @@
+<%= turbo_frame_tag "cv_status", target: "_top" do %>
+  <% if @document.nil? || @document.failed? %>
+    <div data-controller="cv-poll" data-cv-poll-status-value="failed"
+         data-cv-poll-redirect-url-value="<%= onboarding_profile_path %>"
+         data-cv-poll-fallback-url-value="<%= onboarding_profile_path %>">
+      <%= render "failed", document: @document %>
+    </div>
+  <% elsif @document.completed? %>
+    <section class="card">
+      <div class="processing"
+           data-controller="cv-poll"
+           data-cv-poll-status-value="completed"
+           data-cv-poll-redirect-url-value="<%= onboarding_profile_path %>"
+           data-cv-poll-fallback-url-value="<%= onboarding_profile_path %>">
+        <h2>Done! Taking you to your profile&hellip;</h2>
+        <p><%= link_to "Continue to your profile", onboarding_profile_path, data: { turbo_frame: "_top" } %></p>
+      </div>
+    </section>
+  <% else %>
+    <section class="card">
+      <div class="processing"
+           data-controller="cv-poll"
+           data-cv-poll-status-value="<%= @document.parsing_status %>"
+           data-cv-poll-redirect-url-value="<%= onboarding_profile_path %>"
+           data-cv-poll-fallback-url-value="<%= onboarding_profile_path %>">
+        <div class="spinner" aria-hidden="true"></div>
+        <h2>Analyzing your CV&hellip;</h2>
+        <p>We're extracting your work experience, education and skills. This usually takes less than 30 seconds — please keep this page open.</p>
+        <% if @document.original_filename %>
+          <span class="file-pill"><%= @document.original_filename %><%= " · #{number_to_human_size(@document.file_size)}" if @document.file_size %></span>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+<% end %>

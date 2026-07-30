@@ -1,0 +1,174 @@
+{
+  "first_name": {
+    "value": "Sanne",
+    "confidence": "high"
+  },
+  "last_name": {
+    "value": "de Vries",
+    "confidence": "high"
+  },
+  "email": {
+    "value": "sanne.devries@example.com",
+    "confidence": "high"
+  },
+  "phone": {
+    "value": "+31612345678",
+    "confidence": "high"
+  },
+  "city": {
+    "value": "Amsterdam",
+    "confidence": "high"
+  },
+  "country": {
+    "value": "Netherlands",
+    "confidence": "high"
+  },
+  "current_job_title": {
+    "value": "General Dentist",
+    "confidence": "high"
+  },
+  "dental_job_function": {
+    "value": "tandarts",
+    "confidence": "high"
+  },
+  "years_experience": {
+    "value": 8,
+    "confidence": "high"
+  },
+  "big_number": {
+    "value": "B001234567",
+    "confidence": "high"
+  },
+  "big_status": {
+    "value": "registered",
+    "confidence": "high"
+  },
+  "professional_summary": {
+    "value": "Experienced general dentist with focus on patient care and preventive dentistry",
+    "confidence": "medium"
+  },
+  "languages": [
+    {
+      "name": {
+        "value": "Dutch",
+        "confidence": "high"
+      },
+      "level": {
+        "value": "native",
+        "confidence": "high"
+      }
+    },
+    {
+      "name": {
+        "value": "English",
+        "confidence": "high"
+      },
+      "level": {
+        "value": "C1",
+        "confidence": "medium"
+      }
+    }
+  ],
+  "skills": [
+    {
+      "name": {
+        "value": "Dental diagnostics",
+        "confidence": "high"
+      }
+    },
+    {
+      "name": {
+        "value": "Patient communication",
+        "confidence": "medium"
+      }
+    },
+    {
+      "name": {
+        "value": "Restorative dentistry",
+        "confidence": "high"
+      }
+    }
+  ],
+  "educations": [
+    {
+      "institution": {
+        "value": "University of Amsterdam",
+        "confidence": "high"
+      },
+      "study": {
+        "value": "Dentistry",
+        "confidence": "high"
+      },
+      "location": {
+        "value": "Amsterdam",
+        "confidence": "high"
+      },
+      "level": {
+        "value": "Bachelor",
+        "confidence": "high"
+      },
+      "start_date": {
+        "value": "2012-09",
+        "confidence": "high"
+      },
+      "end_date": {
+        "value": "2016-06",
+        "confidence": "high"
+      }
+    }
+  ],
+  "work_experiences": [
+    {
+      "job_title": {
+        "value": "General Dentist",
+        "confidence": "high"
+      },
+      "company_name": {
+        "value": "Smile Clinic Amsterdam",
+        "confidence": "high"
+      },
+      "responsibilities": {
+        "value": "Patient examinations, treatment planning, restorative procedures",
+        "confidence": "medium"
+      },
+      "start_date": {
+        "value": "2018-01",
+        "confidence": "high"
+      },
+      "end_date": {
+        "value": null,
+        "confidence": "high"
+      },
+      "current_job": {
+        "value": true,
+        "confidence": "high"
+      }
+    },
+    {
+      "job_title": {
+        "value": "Dental Assistant",
+        "confidence": "high"
+      },
+      "company_name": {
+        "value": "Family Dental Practice",
+        "confidence": "high"
+      },
+      "responsibilities": {
+        "value": "Patient assistance, sterilization, administrative tasks",
+        "confidence": "medium"
+      },
+      "start_date": {
+        "value": "2016-07",
+        "confidence": "high"
+      },
+      "end_date": {
+        "value": "2017-12",
+        "confidence": "high"
+      },
+      "current_job": {
+        "value": false,
+        "confidence": "high"
+      }
+    }
+  ]
+}

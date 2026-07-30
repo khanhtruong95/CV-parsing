@@ -1,0 +1,9 @@
+<div class="lang-row" data-nested-form-row<%= ' style="display:none"'.html_safe if form.object.marked_for_destruction? %>>
+  <%= form.hidden_field :id if form.object.persisted? %>
+  <%= form.hidden_field :_destroy %>
+  <%= form.collection_select :language_id, Language.ordered, :id, :name,
+        { include_blank: "Select language" }, { aria: { label: "Language" } } %>
+  <%= form.select :level, options_for_select(CandidateProfile::LANGUAGE_LEVELS, form.object.level),
+        { include_blank: "Level (optional)" }, { aria: { label: "Level" } } %>
+  <button type="button" class="btn-remove" data-action="nested-form#remove" aria-label="Remove language">✕</button>
+</div>

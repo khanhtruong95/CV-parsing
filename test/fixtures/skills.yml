@@ -1,0 +1,20 @@
+dental_diagnostics:
+  job_function: general_dentist
+  name: Dental diagnostics
+  position: 0
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+patient_communication:
+  job_function: general_dentist
+  name: Patient communication
+  position: 1
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+restorative_dentistry:
+  job_function: general_dentist
+  name: Restorative dentistry
+  position: 2
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>

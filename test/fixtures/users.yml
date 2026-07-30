@@ -1,0 +1,13 @@
+alice:
+  email: alice@example.com
+  first_name: Alice
+  last_name: Smith
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+bob:
+  email: bob@example.com
+  first_name: Bob
+  last_name: Johnson
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>

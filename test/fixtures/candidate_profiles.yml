@@ -1,0 +1,42 @@
+john_doe:
+  first_name: John
+  last_name: Doe
+  email: john.doe@example.com
+  phone: +31612345678
+  city: Amsterdam
+  country: Netherlands
+  job_function: general_dentist
+  search_status: 0
+  available_from: <%= 1.week.from_now %>
+  years_experience: 5
+  max_travel_time: 30
+  working_days:
+    - monday
+    - tuesday
+    - wednesday
+    - thursday
+    - friday
+  desired_salary: 2500
+  status: 0
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+jane_smith:
+  first_name: Jane
+  last_name: Smith
+  email: jane.smith@example.com
+  phone: +31687654321
+  city: Rotterdam
+  country: Netherlands
+  job_function: dental_hygienist
+  search_status: 1
+  available_from: <%= 2.weeks.from_now %>
+  years_experience: 3
+  max_travel_time: 45
+  working_days:
+    - tuesday
+    - wednesday
+    - thursday
+  status: 0
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>

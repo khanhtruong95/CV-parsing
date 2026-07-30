@@ -1,0 +1,28 @@
+<div class="subcard" data-nested-form-row<%= ' style="display:none"'.html_safe if form.object.marked_for_destruction? %>>
+  <div class="subcard-head">
+    <h3>
+      <%= heading %>
+      <% if form.object.persisted? && badge_state != :none %><%= render "onboarding/shared/badge", state: badge_state %><% end %>
+    </h3>
+    <button type="button" class="btn-remove" data-action="nested-form#remove">Remove</button>
+  </div>
+
+  <%= form.hidden_field :id if form.object.persisted? %>
+  <%= form.hidden_field :_destroy %>
+
+  <div class="row">
+    <div class="field"><%= form.label :institution, "Institution" %><%= form.text_field :institution %></div>
+    <div class="field"><%= form.label :study, "Study" %><%= form.text_field :study %></div>
+  </div>
+  <div class="row">
+    <div class="field"><%= form.label :location, "City / country" %><%= form.text_field :location %></div>
+    <div class="field">
+      <%= form.label :level, "Level" %>
+      <%= form.select :level, options_for_select(Education::LEVELS, form.object.level), include_blank: true %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="field"><%= form.label :start_date, "Start date" %><%= form.date_field :start_date %></div>
+    <div class="field"><%= form.label :end_date, "End date" %><%= form.date_field :end_date %></div>
+  </div>
+</div>

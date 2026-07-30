@@ -1,0 +1,11 @@
+<% content_for(:title) { "Upload your CV — DentaMatch" } %>
+<%= render "shared/progress", current_step: 1 %>
+
+<% case @state %>
+<% when :processing %>
+  <%= render "processing", document: @document %>
+<% when :failed %>
+  <%= render "failed", document: @document %>
+<% else %>
+  <%= render "upload" %>
+<% end %>

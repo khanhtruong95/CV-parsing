@@ -1,0 +1,62 @@
+general_dentist:
+  name: General Dentist
+  key: general_dentist
+  requires_big: false
+  requires_daily_revenue: false
+  position: 0
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+dental_hygienist:
+  name: Dental Hygienist
+  key: dental_hygienist
+  requires_big: false
+  requires_daily_revenue: false
+  position: 1
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+prevention_assistant:
+  name: Prevention Assistant
+  key: prevention_assistant
+  requires_big: false
+  requires_daily_revenue: false
+  position: 2
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+dental_assistant:
+  name: Dental Assistant
+  key: dental_assistant
+  requires_big: false
+  requires_daily_revenue: false
+  position: 3
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+dentist_big_required:
+  name: Dentist (BIG Required)
+  key: dentist_big_required
+  requires_big: true
+  requires_daily_revenue: false
+  position: 4
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+daily_revenue_required:
+  name: Daily Revenue Function
+  key: daily_revenue_required
+  requires_big: false
+  requires_daily_revenue: true
+  position: 5
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+front_office:
+  name: Front Office
+  key: front_office
+  requires_big: false
+  requires_daily_revenue: false
+  position: 6
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>

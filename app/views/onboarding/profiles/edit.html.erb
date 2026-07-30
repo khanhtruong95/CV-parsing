@@ -1,0 +1,48 @@
+<% content_for(:title) { "Review your profile — DentaMatch" } %>
+<%= render "shared/progress", current_step: 2 %>
+
+<div class="page-head">
+  <h1>Review your profile</h1>
+  <p>We prefilled your profile from your CV. Check each section, correct anything we got wrong, and fill in what's missing.</p>
+</div>
+
+<% summary = provenance_summary(@profile) %>
+<div class="banner-info" role="status">
+  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="flex:none; margin-top:2px;"><circle cx="10" cy="10" r="8" stroke="#0F766E" stroke-width="1.6"/><path d="M10 9v5" stroke="#0F766E" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="6" r="1" fill="#0F766E"/></svg>
+  <span>
+    <strong><%= pluralize(summary[:extracted], "field") %> extracted from your CV.</strong>
+    <% if summary[:check].positive? || summary[:missing].positive? %>
+      <%= pluralize(summary[:check], "field") %> need checking (<span class="badge badge-check">⚠ Please check</span>)
+      and <%= pluralize(summary[:missing], "required field") %> missing (<span class="badge badge-missing">Missing</span>).
+    <% end %>
+  </span>
+</div>
+
+<% if @profile.errors.any? %>
+  <div class="banner-danger" role="alert">
+    <h2>Please fix <%= pluralize(@profile.errors.count, "problem") %> before saving:</h2>
+    <p><%= @profile.errors.full_messages.to_sentence %></p>
+  </div>
+<% end %>
+
+<%# novalidate: server-side validation renders the error summary and badges;
+    the browser's native bubbles would block the submit invisibly on long forms. %>
+<%= form_with model: @profile, url: onboarding_profile_path, method: :patch,
+      html: { novalidate: true },
+      data: { controller: "conditional-fields skills-filter" } do |form| %>
+
+  <%= render "onboarding/profiles/sections/personal", form: form, profile: @profile %>
+  <%= render "onboarding/profiles/sections/job_preferences", form: form, profile: @profile %>
+  <%= render "onboarding/profiles/sections/employment", form: form, profile: @profile %>
+  <%= render "onboarding/profiles/sections/education", form: form, profile: @profile %>
+  <%= render "onboarding/profiles/sections/work_experience", form: form, profile: @profile %>
+  <%= render "onboarding/profiles/sections/skills", form: form, profile: @profile %>
+  <%= render "onboarding/profiles/sections/availability", form: form, profile: @profile %>
+  <%= render "onboarding/profiles/sections/additional", form: form, profile: @profile %>
+
+  <div class="footer-actions">
+    <%= link_to "Back", onboarding_cv_upload_path, class: "btn btn-secondary" %>
+    <span class="spacer"></span>
+    <%= form.submit "Save profile", class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,28 @@
+<section class="card" aria-labelledby="s8">
+  <div class="sec-head"><span class="num">8</span><h2 id="s8">Additional information</h2></div>
+
+  <div class="row single">
+    <div class="field">
+      <%= form.label :professional_summary do %>
+        Professional summary <%= provenance_badge(profile, :professional_summary) %>
+      <% end %>
+      <%= form.text_area :professional_summary, rows: 4 %>
+      <%= render "onboarding/shared/field_errors", profile: profile, field: :professional_summary %>
+    </div>
+  </div>
+
+  <div class="row single">
+    <div class="field">
+      <%= form.label :motivation, "Motivation" %>
+      <%= form.text_area :motivation %>
+    </div>
+  </div>
+
+  <div class="row single">
+    <div class="field">
+      <%= form.label :internal_notes, "Notes for your recruiter (optional)" %>
+      <%= form.text_area :internal_notes, placeholder: "Anything else we should know?" %>
+      <p class="hint">Internal only — never shared with practices.</p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+<% content_for(:title) { "Candidates — DentaMatch Admin" } %>
+<h1>Completed candidate profiles</h1>
+<table>
+  <thead>
+    <tr><th>Name</th><th>Email</th><th>Job function</th><th>City</th><th>Completed</th><th></th></tr>
+  </thead>
+  <tbody>
+    <% @profiles.each do |profile| %>
+      <tr>
+        <td><%= link_to profile.full_name.presence || "(no name)", admin_candidate_profile_path(profile) %></td>
+        <td><%= profile.email %> <%= tag.span("duplicate email", class: "flag") if profile.duplicate_email? %></td>
+        <td><%= profile.job_function&.name %></td>
+        <td><%= profile.city %></td>
+        <td><%= profile.completed_at&.strftime("%Y-%m-%d %H:%M") %></td>
+        <td><%= link_to "View", admin_candidate_profile_path(profile) %></td>
+      </tr>
+    <% end %>
+    <% if @profiles.empty? %>
+      <tr><td colspan="6">No completed profiles yet.</td></tr>
+    <% end %>
+  </tbody>
+</table>
